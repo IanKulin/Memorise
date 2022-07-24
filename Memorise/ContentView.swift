@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
-    let emojis = ["🐠", "🐢", "🦋", "🐥", "🐣", "🐰", "🐝", "🦄", "🐵", "🐛", "🐌", "🕷",
-                  "🦅", "🐨", "🐞", "🦎", "🐳", "🦑", "🦀", "🐊", "🐫", "🐏", "🦧", "🐘"]
-    @State var emojiCount = 5
+    let animalEmojis = ["🐠", "🐢", "🦋", "🐥", "🐣", "🐰", "🐝", "🦄", "🐵", "🐛", "🐌", "🕷",
+                        "🦅", "🐨", "🐞", "🦎", "🐳", "🦑", "🦀", "🐊", "🐫", "🐏", "🦧", "🐘"]
+    let weatherEmojis = ["🌪", "🌝", "🌈", "🔥", "🌧", "🌙", "🌬", "☃️", "☔️", "🌫", "🌗", "⚡️",
+                         "✨", "☀️", "⛅️", "🌊", "🥦", "🎇", "☂️", "🌤", "☄️", "🌏", "🫧", "🍎"]
+    let transportEmojis = ["🚗", "🚕", "🚲", "🚚", "🛵", "🚜", "🛴", "🛺", "🚃", "🚡", "🚂", "🚀",
+                            "🛳", "✈️", "🛫", "🚤", "🛶", "🚝", "⛵️", "🚔", "🚙", "🏍", "🛸", "🚁"]
+
+
+    // I'm not happy with this duplication //TODO
+    @State var emojis = ["🐠", "🐢", "🦋", "🐥", "🐣", "🐰", "🐝", "🦄", "🐵", "🐛", "🐌", "🕷",
+                         "🦅", "🐨", "🐞", "🦎", "🐳", "🦑", "🦀", "🐊", "🐫", "🐏", "🦧", "🐘"]
+    
+    @State var emojiCount = 16
+    
+    // used for SF Symbol frames
+    @ScaledMetric var height: CGFloat = 20
+    
     var body: some View {
         VStack{
+            Text("Memorise!")
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]){
                     ForEach(emojis[0..<emojiCount], id: \.self)  {emoji in
@@ -25,35 +40,47 @@ struct ContentView: View {
             Spacer()
             
             HStack{
-                buttonRemove
                 Spacer()
-                buttonAdd
-            }.padding()
-          
-            .font(.largeTitle)
-        }  .padding(.horizontal)
+                buttonThemeAnimal
+                Spacer()
+                buttonThemeWeather
+                Spacer()
+                buttonThemeTransport
+                Spacer()
+            }
+        }  .padding(.horizontal).font(.largeTitle)
     }
     
-    var buttonAdd: some View {
-        Button{
-            if emojiCount < emojis.count {
-                emojiCount += 1
-            }
-        } label: {
-            Image(systemName: "plus.circle")
+    var buttonThemeAnimal: some View {
+        VStack{
+            Button{
+                emojis = animalEmojis
+                emojis.shuffle()
+            } label: { Image(systemName: "ant").frame(height: height)}
+            Text("Animals").font(.body)
         }
     }
     
-    var buttonRemove: some View {
-        Button {
-            if emojiCount > 1 {
-                emojiCount -= 1
-            }
-        } label: {
-            Image(systemName: "minus.circle")
+    var buttonThemeWeather: some View {
+        VStack{
+            Button {
+                emojis = weatherEmojis
+                emojis.shuffle()
+            } label: { Image(systemName: "cloud").frame(height: height)}
+            Text("Weather").font(.body)
         }
-
     }
+    
+    var buttonThemeTransport: some View {
+        VStack{
+            Button {
+                emojis = transportEmojis
+                emojis.shuffle()
+            } label: { Image(systemName: "car").frame(height: height)}
+            Text("Transport").font(.body)
+        }
+    }
+    
 }
 
 struct CardView: View {
@@ -84,7 +111,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView()
-                .previewInterfaceOrientation(.portraitUpsideDown)
+                .previewInterfaceOrientation(.portrait)
                 
  
         }
