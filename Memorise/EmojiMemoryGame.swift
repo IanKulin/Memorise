@@ -7,24 +7,26 @@
 
 import SwiftUI
 
-class EmojiMemoryGame {
+class EmojiMemoryGame: ObservableObject {
     
-    static let animalEmojis = ["🐠", "🐢", "🦋", "🐥", "🐣", "🐰", "🐝", "🦄", "🐵", "🐛", "🐌", "🕷",
+    static let emojis = ["🐠", "🐢", "🦋", "🐥", "🐣", "🐰", "🐝", "🦄", "🐵", "🐛", "🐌", "🕷",
                         "🦅", "🐨", "🐞", "🦎", "🐳", "🦑", "🦀", "🐊", "🐫", "🐏", "🦧", "🐘"]
-    static let weatherEmojis = ["🌪", "🌝", "🌈", "🔥", "🌧", "🌙", "🌬", "☃️", "☔️", "🌫", "🌗", "⚡️",
-                         "✨", "☀️", "⛅️", "🌊", "🥦", "🎇", "☂️", "🌤", "☄️", "🌏", "🫧", "🍎"]
-    static let transportEmojis = ["🚗", "🚕", "🚲", "🚚", "🛵", "🚜", "🛴", "🛺", "🚃", "🚡", "🚂", "🚀",
-                            "🛳", "✈️", "🛫", "🚤", "🛶", "🚝", "⛵️", "🚔", "🚙", "🏍", "🛸", "🚁"]
     
     static func createMemoryGame() -> MemoryGame<String> {
-        MemoryGame<String>(numberOfPairsOfCards: 4) {pairIndex in
-            animalEmojis[pairIndex]
+        MemoryGame<String>(numberOfPairsOfCards: 6) {pairIndex in
+            emojis[pairIndex]
         }
     }
     
-    private var model: MemoryGame<String> = createMemoryGame()
+    @Published private var model: MemoryGame<String> = createMemoryGame()
     
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards
+    }
+    
+    //MARK: Intents
+    
+    func choose(_ card: MemoryGame<String>.Card) {
+        model.choose(card)
     }
 }
