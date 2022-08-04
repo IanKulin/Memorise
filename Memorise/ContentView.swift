@@ -22,7 +22,6 @@ struct ContentView: View {
                 }
             }
         }.foregroundColor(.red).padding(.horizontal)
-            
     }
 }
 
@@ -58,8 +57,6 @@ struct ContentView_Previews: PreviewProvider {
         Group {
             ContentView(viewModel: game)
                 .previewInterfaceOrientation(.portrait)
-                
- 
         }
     }
 }
